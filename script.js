@@ -59,11 +59,9 @@ function flyToCart(productId, buttonElement) {
     const cartIcon = document.getElementById('cartIcon');
     const container = document.getElementById('flyingImageContainer');
 
-    // Get positions
     const imgRect = productImg.getBoundingClientRect();
     const cartRect = cartIcon.getBoundingClientRect();
 
-    // Create flying image
     const flyingImg = document.createElement('img');
     flyingImg.src = productImg.src;
     flyingImg.className = 'flying-image';
@@ -72,14 +70,12 @@ function flyToCart(productId, buttonElement) {
 
     container.appendChild(flyingImg);
 
-    // Trigger animation after a small delay
     requestAnimationFrame(() => {
         flyingImg.style.left = cartRect.left + cartRect.width / 2 - 10 + 'px';
         flyingImg.style.top = cartRect.top + cartRect.height / 2 - 10 + 'px';
         flyingImg.classList.add('fly');
     });
 
-    // Remove after animation
     setTimeout(() => {
         flyingImg.remove();
     }, 800);
@@ -90,7 +86,6 @@ function addToCart(productId, buttonElement) {
     const product = products.find(p => p.id === productId);
     const existingItem = cart.find(item => item.id === productId);
 
-    // Add highlight only once (first time item is added)
     if (!highlightedItems.includes(productId)) {
         const productCard = document.querySelector(`[data-id="${productId}"]`);
         const imageWrapper = productCard.querySelector('.product-image-wrapper');
@@ -100,7 +95,6 @@ function addToCart(productId, buttonElement) {
         localStorage.setItem('highlightedItems', JSON.stringify(highlightedItems));
     }
 
-    // Fly animation
     flyToCart(productId, buttonElement);
 
     if (existingItem) {
@@ -113,7 +107,6 @@ function addToCart(productId, buttonElement) {
     updateCartBadge();
     shakeCart();
 
-    // If cart is open, update the display immediately
     if (document.getElementById('cartDrawer').classList.contains('active')) {
         renderCartItems();
     }
@@ -123,14 +116,12 @@ function addToCart(productId, buttonElement) {
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
 
-    // Remove highlight when item is removed
     const productCard = document.querySelector(`[data-id="${productId}"]`);
     if (productCard) {
         const imageWrapper = productCard.querySelector('.product-image-wrapper');
         imageWrapper.classList.remove('selected');
     }
 
-    // Remove from highlighted items
     highlightedItems = highlightedItems.filter(id => id !== productId);
     localStorage.setItem('highlightedItems', JSON.stringify(highlightedItems));
 
@@ -236,23 +227,19 @@ function checkout() {
 
     congratsOverlay.classList.add('show');
 
-    // Clear cart
     cart = [];
     saveCart();
     updateCartBadge();
     renderCartItems();
     closeCartDrawer();
 
-    // Remove all highlights
     document.querySelectorAll('.product-image-wrapper.selected').forEach(wrapper => {
         wrapper.classList.remove('selected');
     });
 
-    // Clear highlighted items
     highlightedItems = [];
     localStorage.setItem('highlightedItems', JSON.stringify(highlightedItems));
 
-    // Hide congratulations after 4 seconds
     setTimeout(() => {
         congratsOverlay.classList.remove('show');
     }, 4000);
