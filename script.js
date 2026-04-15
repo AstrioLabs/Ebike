@@ -232,7 +232,7 @@ function checkout() {
     const congratsOverlay = document.getElementById('congratsOverlay');
     const congratsMessage = congratsOverlay.querySelector('.congrats-message');
 
-    congratsMessage.textContent = 'Learn broadly about Pay Small Small App!';
+    congratsMessage.textContent = 'Learn broadly about Equipment Testing Services!';
 
     congratsOverlay.classList.add('show');
 
